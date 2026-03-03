@@ -51,7 +51,7 @@ export default function SidebarLayout({ children }: { children: ReactNode }) {
             >
                 {/* Logo */}
                 <div className="h-16 flex items-center px-6 border-b font-bold text-slate-800 text-lg">
-                    MyApp
+                   M.Hossain Cold 
                 </div>
 
                 {/* Navigation */}
