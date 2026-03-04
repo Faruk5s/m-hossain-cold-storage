@@ -24,6 +24,9 @@ export default function ViewStockIn({ params }) {
         <Field label="Booking No" value={stockIn.bookingNo} />
         <Field label="Customer Name" value={stockIn.bookingId?.customerName} />
         <Field label="Bags IN" value={stockIn.bagsIn} />
+        <Field label="Potato Name" value={stockIn.potatoName} />
+        <Field label="SR Holder Name" value={stockIn.srHolderName} />
+        <Field label="Receiver Name" value={stockIn.receiverName} />
         <Field label="Rate" value={`৳${stockIn.bookingId?.rate}`} />
         <Field label="Stock IN Date" value={formatGlobalDate(stockIn.date)} />
       </div>

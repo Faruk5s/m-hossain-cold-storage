@@ -7,11 +7,13 @@ import axios from "axios";
 export default function CreateStockOut() {
   const router = useRouter();
   const [selectedBooking,setSelectedBooking]=useState(null);
+  const [srHolderName,setSrHolderName]=useState('-');
 
   const [form, setForm] = useState({
     srNo: "",
     bookingId: "",
     bookingNo: "",
+    doNo:'',
     bagsOut: 0,
     date: new Date().toISOString().split("T")[0],
   });
@@ -28,7 +30,8 @@ export default function CreateStockOut() {
       setTimeout(async()=>{
 
         const totalStockIns= await getStockIns(form.bookingNo,e.target.value)
-        setTotalStockIns(totalStockIns);
+        setTotalStockIns(totalStockIns.totalStockInBags);
+        setSrHolderName(totalStockIns.srHolderName)
         const totalStockOuts= await getStockOuts(form.bookingNo,e.target.value)
         setTotalStockOuts(totalStockOuts);
       },1000)
@@ -74,7 +77,7 @@ export default function CreateStockOut() {
             });
             const stockIns = response.data.data
             const totalStockInBags = stockIns.reduce((acc, cur) => acc + cur.bagsIn, 0)
-           return totalStockInBags
+           return {totalStockInBags:totalStockInBags,srHolderName:stockIns[0]?.srHolderName || "="}
             
         }
         catch (err) {
@@ -130,7 +133,7 @@ export default function CreateStockOut() {
     setQuery(b.bookingNo || b.booking_no || "");
     const allStockIns=await getStockIns(b.bookingNo,form.srNo);
     const allStockOuts=await getStockOuts(b.bookingNo,form.srNo);
-    setTotalStockIns(allStockIns)
+    setTotalStockIns(allStockIns.totalStockInBags)
     setTotalStockOuts(allStockOuts)
   };
 
@@ -150,12 +153,10 @@ export default function CreateStockOut() {
           value={form.srNo}
           onChange={handleChange}
         />
-
         <Input
-          name="bagsOut"
-          label="Bags Out"
-          type="number"
-          value={form.bagsOut}
+          name="doNo"
+          label="DO No"
+          value={form.doNo}
           onChange={handleChange}
         />
 
@@ -186,6 +187,14 @@ export default function CreateStockOut() {
             </ul>
           )}
         </div>
+        <Input
+          name="bagsOut"
+          label="Bags Out"
+          type="number"
+          value={form.bagsOut}
+          onChange={handleChange}
+        />
+
 
         <Input
           name="date"
@@ -219,6 +228,10 @@ export default function CreateStockOut() {
         <div>
           <label className="text-sm text-zinc-600 mb-1 block">Customer Name</label>
           <div className="text-sm">{selectedBooking ? (selectedBooking.customerName || selectedBooking.customer || "-") : "-"}</div>
+        </div>
+        <div>
+          <label className="text-sm text-zinc-600 mb-1 block">SR Holder Name</label>
+          <div className="text-sm">{selectedBooking? srHolderName || "-" : "-"}</div>
         </div>
 
         <div>

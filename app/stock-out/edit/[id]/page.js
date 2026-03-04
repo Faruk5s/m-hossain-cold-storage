@@ -14,9 +14,10 @@ export default function EditStockOut({ params }) {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const [form, setForm] = useState({
+    bookingNo: "",
+    doNo: "",
     srNo: "",
     bookingId: "",
-    bookingNo: "",
     bagsOut: 0,
     date: new Date().toISOString().split("T")[0],
   });
@@ -35,6 +36,7 @@ export default function EditStockOut({ params }) {
         srNo: data.srNo || "",
         bookingId: data.bookingId?._id || data.bookingId || "",
         bookingNo: data.bookingNo || "",
+        bookingNo: data.doNo || "",
         bagsOut: data.bagsOut || 0,
         date:
           data.date?.split("T")[0] ||
@@ -135,16 +137,13 @@ export default function EditStockOut({ params }) {
             value={form.srNo}
             onChange={handleChange}
           />
-
           <Input
-            name="bagsOut"
-            label="Bags Out"
-            type="number"
-            value={form.bagsOut}
+            name="doNo"
+            label="DO No"
+            value={form.doNo}
             onChange={handleChange}
           />
 
-          {/* Booking Combobox */}
           <div className="relative md:col-span-2">
             <label className="text-sm text-slate-600 mb-1 block">
               Booking No
@@ -179,6 +178,15 @@ export default function EditStockOut({ params }) {
               </ul>
             )}
           </div>
+          <Input
+            name="bagsOut"
+            label="Bags Out"
+            type="number"
+            value={form.bagsOut}
+            onChange={handleChange}
+          />
+
+          {/* Booking Combobox */}
 
           <Input
             name="date"

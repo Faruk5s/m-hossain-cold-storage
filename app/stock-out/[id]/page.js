@@ -21,6 +21,7 @@ export default function ViewStockOut({ params }) {
       <div className="grid md:grid-cols-2 gap-4 text-sm">
         <Field label="SR No" value={stockOut.srNo} />
         <Field label="Booking No" value={stockOut.bookingNo} />
+        <Field label="Do No" value={stockOut.doNo} />
         <Field label="Customer Name" value={stockOut.customerName} />
         <Field label="Bags OUT" value={stockOut.bagsOut} />
         <Field label="Rate" value={`৳${stockOut.rate}`} />

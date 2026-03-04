@@ -10,8 +10,9 @@ const formatBookingsForExcel = (data = []) => {
     return data.map((item, index) => ({
         "SL": index + 1,
         "Date": new Date(item.date).toLocaleDateString('en-GB'),
-        "Customer Name": item.bookingId.customerName,
+        "Booking Holder Name": item.bookingId.customerName,
         "Booking type": item.bookingId.bookingType,
+        "Do No": item.doNo,
         "Booking No": item.bookingNo,
         "Sr No": item.srNo,
         "Qty (Bags)": item.bagsOut,
@@ -302,7 +303,13 @@ console.log(stockIns,'stockins')
                                                         
                                                         className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
                                                     >
-                                                        Customer Info
+                                                        DO No
+                                                    </th>
+                                                    <th
+                                                        
+                                                        className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
+                                                    >
+                                                        Booking Holder Info
                                                     </th>
                                                     <th
                                                         
@@ -336,6 +343,11 @@ console.log(stockIns,'stockins')
                                                             className="px-4 py-3 text-slate-700 align-top"
                                                         >
                                                          {row.bookingNo}   
+                                                        </td>
+                                                        <td
+                                                            className="px-4 py-3 text-slate-700 align-top"
+                                                        >
+                                                         {row.doNo}   
                                                         </td>
                                                         <td
                                                             className="px-4 py-3 text-slate-700 align-top"
