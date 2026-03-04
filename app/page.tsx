@@ -211,7 +211,7 @@ export default function DashboardPage() {
           <Card title="Normal Bookings" value={stats.totalNormalBookings} />
           <Card title="Paid Booked Bags" value={stats.totalPaidBookedBags} />
           <Card title="Normal Booked Bags" value={stats.totalNormalBookedBags} />
-          <Card title="Total Revenue" value={`₹ ${stats.totalRevenue}`} />
+          <Card title="Total Revenue" value={`৳  ${stats.totalRevenue}`} />
           <Card title="Total Bags In" value={stats.totalBagsIn} />
           <Card title="Total Bags Out" value={stats.totalBagsOut} />
           <Card
