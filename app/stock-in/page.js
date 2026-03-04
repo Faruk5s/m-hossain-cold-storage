@@ -57,7 +57,7 @@ if(data.success){
               <th className="p-3 text-left">SL</th>
               <th className="p-3 text-left">SR No</th>
               <th className="p-3 text-left">Booking No</th>
-              <th className="p-3 text-left">Customer</th>
+              <th className="p-3 text-left">Booking Holder Name</th>
               <th className="p-3 text-center">Bags IN</th>
               <th className="p-3 text-center">Potato Name</th>
               <th className="p-3 text-center">SR Holder Name</th>

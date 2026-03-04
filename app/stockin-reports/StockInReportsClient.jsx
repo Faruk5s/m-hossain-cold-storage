@@ -10,7 +10,10 @@ const formatBookingsForExcel = (data = []) => {
     return data.map((item, index) => ({
         "SL": index + 1,
         "Date": new Date(item.date).toLocaleDateString('en-GB'),
-        "Customer Name": item.bookingId.customerName,
+        "Booking Holder Name": item.bookingId.customerName,
+        "SR Holder Name": item.srHolderName,
+        "Potato Name": item.potatoName,
+        "Receiver Name": item.receiverName,
         "Booking type": item.bookingId.bookingType,
         "Booking No": item.bookingNo,
         "Sr No": item.srNo,
@@ -273,6 +276,24 @@ const StockInReportsClient = () => {
                                                         
                                                         className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
                                                     >
+                                                       SR Holder Name
+                                                    </th>
+                                                    <th
+                                                        
+                                                        className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
+                                                    >
+                                                       Potato Name
+                                                    </th>
+                                                    <th
+                                                        
+                                                        className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
+                                                    >
+                                                       Receiver Name
+                                                    </th>
+                                                    <th
+                                                        
+                                                        className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
+                                                    >
                                                        Bags In
                                                     </th>
                                                     <th
@@ -320,6 +341,21 @@ const StockInReportsClient = () => {
                                                             </p>
                                                          
                                                         </td>
+                                                    <td
+                                                        className="px-4 py-3 text-slate-700 align-top"
+                                                    >
+                                                        {row.srHolderName}
+                                                    </td>
+                                                    <td
+                                                        className="px-4 py-3 text-slate-700 align-top"
+                                                    >
+                                                        {row.potatoName}
+                                                    </td>
+                                                    <td
+                                                        className="px-4 py-3 text-slate-700 align-top"
+                                                    >
+                                                        {row.receiverName}
+                                                    </td>
                                                     <td
                                                         className="px-4 py-3 text-slate-700 align-top"
                                                     >
