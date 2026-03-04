@@ -59,6 +59,9 @@ if(data.success){
               <th className="p-3 text-left">Booking No</th>
               <th className="p-3 text-left">Customer</th>
               <th className="p-3 text-center">Bags IN</th>
+              <th className="p-3 text-center">Potato Name</th>
+              <th className="p-3 text-center">SR Holder Name</th>
+              <th className="p-3 text-center">Receiver Name</th>
               <th className="p-3 text-right">Rate</th>
               <th className="p-3 text-left">Date</th>
               <th className="p-3 text-center">Action</th>
@@ -76,6 +79,9 @@ if(data.success){
                 <td className="p-3">{item.bookingNo}</td>
                 <td className="p-3">{item.bookingId?.customerName}</td>
                 <td className="p-3 text-center">{item.bagsIn}</td>
+                <td className="p-3 text-center">{item.potatoName}</td>
+                <td className="p-3 text-center">{item.srHolderName}</td>
+                <td className="p-3 text-center">{item.receiverName}</td>
                 <td className="p-3 text-right">৳{item.bookingId?.rate}</td>
                 
                 <td className="p-3"> { formatGlobalDate(item.date)}</td>

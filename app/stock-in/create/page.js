@@ -11,6 +11,9 @@ export default function CreateStockIn() {
     srNo: "",
     bookingId: "",
     bookingNo: "",
+    srHolderName: "",
+    potatoName: "",
+    receiverName: "",
     bagsIn: 0,
     date: new Date().toISOString().split("T")[0],
   });
@@ -99,12 +102,22 @@ export default function CreateStockIn() {
           value={form.srNo}
           onChange={handleChange}
         />
-
         <Input
-          name="bagsIn"
-          label="Bags IN"
-          type="number"
-          value={form.bagsIn}
+          name="srHolderName"
+          label="SR Holder Name"
+          value={form.srHolderName}
+          onChange={handleChange}
+        />
+        <Input
+          name="potatoName"
+          label="Potato Name"
+          value={form.potatoName}
+          onChange={handleChange}
+        />
+        <Input
+          name="receiverName"
+          label="Receiver Name"
+          value={form.receiverName}
           onChange={handleChange}
         />
 
@@ -135,6 +148,14 @@ export default function CreateStockIn() {
             </ul>
           )}
         </div>
+        <Input
+          name="bagsIn"
+          label="Bags IN"
+          type="number"
+          value={form.bagsIn}
+          onChange={handleChange}
+        />
+
 
         <Input
           name="date"

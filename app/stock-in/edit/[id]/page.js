@@ -18,6 +18,9 @@ export default function EditStockIn({ params }) {
     srNo: "",
     bookingId: "",
     bookingNo: "",
+    potatoName:'',
+    receiverName:'',
+    srHolderName:'',
     bagsIn: 0,
     date: new Date().toISOString().split("T")[0],
   });
@@ -63,6 +66,9 @@ export default function EditStockIn({ params }) {
         srNo: data.srNo || "",
         bookingId: data.bookingId?._id || data.bookingId || "",
         bookingNo: data.bookingNo || "",
+        potatoName: data.potatoName || "",
+        receiverName: data.receiverName || "",
+        srHolderName: data.srHolderName || "",
         bagsIn: data.bagsIn ?? 0,
         date:
           data.date?.split("T")[0] ||
@@ -123,6 +129,9 @@ export default function EditStockIn({ params }) {
       srNo: form.srNo,
       bookingId: form.bookingId,
       bookingNo: form.bookingNo,
+      potatoName: form.potatoName,
+      receiverName: form.receiverName,
+      srHolderName: form.srHolderName,
       bagsIn: Number(form.bagsIn),
       date: form.date,
     };
@@ -160,7 +169,24 @@ export default function EditStockIn({ params }) {
             value={form.srNo}
             onChange={handleChange}
           />
-
+  <Input
+          name="srHolderName"
+          label="SR Holder Name"
+          value={form.srHolderName}
+          onChange={handleChange}
+        />
+        <Input
+          name="potatoName"
+          label="Potato Name"
+          value={form.potatoName}
+          onChange={handleChange}
+        />
+        <Input
+          name="receiverName"
+          label="Receiver Name"
+          value={form.receiverName}
+          onChange={handleChange}
+        />
           <Input
             name="bagsIn"
             label="Bags IN"

@@ -20,7 +20,6 @@ export default function SidebarLayout({ children }: { children: ReactNode }) {
 
     const navItems = [
         { name: "Home", href: "/", icon: FiHome },
-        { name: "Customers", href: "/customers", icon: FaUsers },
         { name: "Bookings", href: "/bookings", icon: FiFileText },
         { name: "Stock In", href: "/stock-in", icon: GiExitDoor },
         { name: "Stock Out", href: "/stock-out", icon: GiEntryDoor },
