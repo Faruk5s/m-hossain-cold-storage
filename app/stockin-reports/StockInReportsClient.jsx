@@ -29,6 +29,7 @@ const StockInReportsClient = () => {
     const [reportData, setReportData] = useState(null);
     const [bookingNo, setBookingNo] = useState('');
     const [srNo, setSrNo] = useState('');
+    const [bookingType, setBookingType] = useState('paid');
     const [metadata, setMetadata] = useState(null);
     const [summary, setSummary] = useState({
         totalStockIns: reportData?.data?.length,
@@ -67,6 +68,7 @@ const StockInReportsClient = () => {
                     ...(individualEndDate && { endDate: individualEndDate }),
                     ...(bookingNo && { bookingNo }),
                     ...(srNo && { srNo }),
+                    ...(bookingType && { bookingType }),
                 },
             });
             setReportData(response.data);
@@ -173,7 +175,7 @@ const StockInReportsClient = () => {
                             <CardTitle>Individual Date Report</CardTitle>
                         </CardHeader>
                         <div className="p-6 space-y-4">
-                            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
                                 <div className="space-y-2">
                                     <label className="block text-sm font-medium text-slate-700">
                                         Select Start Date
@@ -209,6 +211,16 @@ const StockInReportsClient = () => {
                                     </label>
                                     <input type="text" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" value={srNo} onChange={(e)=>setSrNo(e.target.value)} />
                                     
+                                </div>
+                                 <div className="space-y-2">
+                                    <label className="block text-sm font-medium text-slate-700">
+                                        Select Booking Type
+                                    </label>
+                                    <select value={bookingType} onChange={(e) => setBookingType(e.target.value)}
+                                        className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                        <option value={'paid'}>Paid</option>
+                                        <option value={'normal'}>Normal</option>
+                                    </select>
                                 </div>
                             </div>
 
