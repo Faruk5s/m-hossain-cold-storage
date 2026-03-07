@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { FiEye, FiEdit, FiTrash, FiPlus } from "react-icons/fi";
-import formatGlobalDate from "../../lib/formatGlobalDate";
+import formatGlobalDate from "../../../lib/formatGlobalDate";
 
 export default function Bookings() {
   const [bookings, setBookings] = useState([]);

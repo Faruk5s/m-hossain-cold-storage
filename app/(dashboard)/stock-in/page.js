@@ -1,0 +1,119 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { FiEye, FiEdit, FiTrash, FiPlus } from "react-icons/fi";
+import formatGlobalDate from "../../../lib/formatGlobalDate";
+export default function StockIn() {
+  const [stockIn, setStockIn] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/stock-ins`)
+      .then((res) => res.json())
+      .then((data) => {
+        setStockIn(data.data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  const handleDelete = async (id) => {
+    if (!confirm("Delete this Stock IN record?")) return;
+
+   const response= await fetch(`${process.env.NEXT_PUBLIC_API_URL}/stock-ins/${id}`, {
+      method: "DELETE",
+    });
+const data= await response.json();
+    console.log(data)
+if(data.success){
+  setStockIn((prev) => prev.filter((item) => item._id !== id));
+}else{
+  alert('Something went wrong')
+}
+  };
+
+  if (loading) return <p>Loading...</p>;
+
+  return (
+    <div className="bg-white rounded-xl shadow-sm border p-5">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-5">
+        <h2 className="text-xl font-bold text-slate-800">Stock IN</h2>
+        <Link
+          href="/stock-in/create"
+          className="flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-indigo-700"
+        >
+          <FiPlus />
+          Add Stock IN
+        </Link>
+      </div>
+
+      {/* Table */}
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead className="bg-slate-100 text-slate-600">
+            <tr>
+              <th className="p-3 text-left">SL</th>
+              <th className="p-3 text-left">SR No</th>
+              <th className="p-3 text-left">Booking No</th>
+              <th className="p-3 text-left">Booking Holder Name</th>
+              <th className="p-3 text-center">Bags IN</th>
+              <th className="p-3 text-center">Potato Name</th>
+              <th className="p-3 text-center">SR Holder Name</th>
+              <th className="p-3 text-center">Receiver Name</th>
+              <th className="p-3 text-right">Rate</th>
+              <th className="p-3 text-left">Date</th>
+              <th className="p-3 text-center">Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {stockIn.map((item, index) => (
+              <tr
+                key={item._id}
+                className="border-b text-zinc-500 hover:bg-slate-50"
+              >
+                <td className="p-3">{index + 1}</td>
+                <td className="p-3 font-medium">{item.srNo}</td>
+                <td className="p-3">{item.bookingNo}</td>
+                <td className="p-3">{item.bookingId?.customerName}</td>
+                <td className="p-3 text-center">{item.bagsIn}</td>
+                <td className="p-3 text-center">{item.potatoName}</td>
+                <td className="p-3 text-center">{item.srHolderName}</td>
+                <td className="p-3 text-center">{item.receiverName}</td>
+                <td className="p-3 text-right">৳{item.bookingId?.rate}</td>
+                
+                <td className="p-3"> { formatGlobalDate(item.date)}</td>
+                <td className="p-3">
+                  <div className="flex justify-center gap-2">
+                    <Link
+                      href={`/stock-in/${item._id}`}
+                      className="p-2 bg-indigo-50 text-indigo-600 rounded"
+                    >
+                      <FiEye />
+                    </Link>
+
+                    <Link
+                      href={`/stock-in/edit/${item._id}`}
+                      className="p-2 bg-yellow-50 text-yellow-600 rounded"
+                    >
+                      <FiEdit />
+                    </Link>
+
+                    <button
+                      onClick={() => handleDelete(item._id)}
+                      className="p-2 bg-red-50 text-red-600 rounded"
+                    >
+                      <FiTrash />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}

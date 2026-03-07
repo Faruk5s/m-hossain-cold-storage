@@ -1,7 +1,7 @@
 "use client";
 
 import { use, useEffect, useState } from "react";
-import formatGlobalDate from "../../../lib/formatGlobalDate";
+import formatGlobalDate from "../../../../lib/formatGlobalDate";
 
 export default function ViewStockIn({ params }) {
   const [stockIn, setStockIn] = useState(null);

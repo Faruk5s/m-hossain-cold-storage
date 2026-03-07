@@ -2,34 +2,39 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Card, CardHeader, CardTitle } from "../../components/ui/card";
+import { Card, CardHeader, CardTitle } from "../../../components/ui/card";
 import axios from "axios";
 import * as XLSX from "xlsx";
-import formatGlobalDate from "../../lib/formatGlobalDate";
+import formatGlobalDate from "../../../lib/formatGlobalDate";
 const formatBookingsForExcel = (data = []) => {
     return data.map((item, index) => ({
         "SL": index + 1,
-        "Booking No": item.bookingNo,
-        "Booking type": item.bookingType,
-        "Customer Name": item.customerName,
-        "Phone": item.phone,
-        "Address": item.address,
-        "Qty (Bags)": item.qtyOfBags,
-        "Rate": item.rate,
-        "Amount": item.amount,
-        "Advance": item.advanceAmount ?? 0,
         "Date": new Date(item.date).toLocaleDateString('en-GB'),
+        "Booking Holder Name": item.bookingId.customerName,
+        "SR Holder Name": item.srHolderName,
+        "Potato Name": item.potatoName,
+        "Receiver Name": item.receiverName,
+        "Booking type": item.bookingId.bookingType,
+        "Booking No": item.bookingNo,
+        "Sr No": item.srNo,
+        "Qty (Bags)": item.bagsIn,
     }));
 };
 
-const ReportsClient = () => {
+const StockInReportsClient = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
     const [activeTab, setActiveTab] = useState(searchParams.get("tab") || "individual");
     const [loading, setLoading] = useState(false);
     const [reportData, setReportData] = useState(null);
+    const [bookingNo, setBookingNo] = useState('');
+    const [srNo, setSrNo] = useState('');
     const [bookingType, setBookingType] = useState('paid');
     const [metadata, setMetadata] = useState(null);
+    const [summary, setSummary] = useState({
+        totalStockIns: reportData?.data?.length,
+        totalBagsIn: reportData?.data?.reduce((acc, cur) => acc + cur.bagsIn, 0)
+    })
 
     // Individual tab state
     const [individualStartDate, setIndividualStartDate] = useState("");
@@ -45,19 +50,32 @@ const ReportsClient = () => {
     }, [activeTab, router]);
 
     const fetchIndividualReport = async () => {
-        
+        // if (!individualStartDate) {
+        //     alert("Please select a start date");
+        //     return;
+        // }
+        // if (!individualEndDate) {
+        //     alert("Please select a end date");
+        //     return;
+        // }
 
         setLoading(true);
         try {
             // Replace with your actual API endpoint
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/bookings`, {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/stock-ins`, {
                 params: {
-                    startDate: individualStartDate,
-                    endDate: individualEndDate,
-                    bookingType: bookingType,
+                    ...(individualStartDate && { startDate: individualStartDate }),
+                    ...(individualEndDate && { endDate: individualEndDate }),
+                    ...(bookingNo && { bookingNo }),
+                    ...(srNo && { srNo }),
+                    ...(bookingType && { bookingType }),
                 },
             });
             setReportData(response.data);
+            setSummary({
+                totalStockIns: response.data.data.length,
+                totalBagsIn: response.data.data.reduce((acc, cur) => acc + cur.bagsIn, 0)
+            })
         } catch (error) {
             console.error("Error fetching report:", error);
             alert("Failed to fetch report. Please try again.");
@@ -67,7 +85,10 @@ const ReportsClient = () => {
     };
 
     const fetchCustomReport = async () => {
-       
+        if (!startDate || !endDate) {
+            alert("Please select both start and end dates");
+            return;
+        }
 
         if (new Date(startDate) > new Date(endDate)) {
             alert("Start date must be before end date");
@@ -77,11 +98,10 @@ const ReportsClient = () => {
         setLoading(true);
         try {
             // Replace with your actual API endpoint
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/bookings/custom-bookings-report`, {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/stock-ins/custom-report`, {
                 params: {
                     startDate: startDate,
                     endDate: endDate,
-
                 },
             });
             setMetadata(response.data);
@@ -123,15 +143,15 @@ const ReportsClient = () => {
     };
     return (
         <div className="max-w-full">
-            <h2 className="text-xl font-bold mb-6 text-slate-800">Booking Reports</h2>
+            <h2 className="text-xl font-bold mb-6 text-slate-800">Stock In Reports</h2>
 
             {/* Tabs */}
             <div className="flex gap-2 mb-6 border-b">
                 <button
                     onClick={() => setActiveTab("individual")}
                     className={`px-4 py-3 font-medium border-b-2 transition ${activeTab === "individual"
-                            ? "border-indigo-600 text-indigo-600"
-                            : "border-transparent text-slate-600 hover:text-slate-800"
+                        ? "border-indigo-600 text-indigo-600"
+                        : "border-transparent text-slate-600 hover:text-slate-800"
                         }`}
                 >
                     Individual Date Report
@@ -139,8 +159,8 @@ const ReportsClient = () => {
                 <button
                     onClick={() => setActiveTab("custom")}
                     className={`px-4 py-3 font-medium border-b-2 transition ${activeTab === "custom"
-                            ? "border-indigo-600 text-indigo-600"
-                            : "border-transparent text-slate-600 hover:text-slate-800"
+                        ? "border-indigo-600 text-indigo-600"
+                        : "border-transparent text-slate-600 hover:text-slate-800"
                         }`}
                 >
                     Metadata Report
@@ -155,7 +175,7 @@ const ReportsClient = () => {
                             <CardTitle>Individual Date Report</CardTitle>
                         </CardHeader>
                         <div className="p-6 space-y-4">
-                            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+                            <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
                                 <div className="space-y-2">
                                     <label className="block text-sm font-medium text-slate-700">
                                         Select Start Date
@@ -179,6 +199,20 @@ const ReportsClient = () => {
                                     />
                                 </div>
                                 <div className="space-y-2">
+                                    <label className="block text-sm font-medium text-slate-700">
+                                        Booking No
+                                    </label>
+                                    <input type="text" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" value={bookingNo} onChange={(e)=>setBookingNo(e.target.value)} />
+                                    
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="block text-sm font-medium text-slate-700">
+                                        Sr No
+                                    </label>
+                                    <input type="text" className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" value={srNo} onChange={(e)=>setSrNo(e.target.value)} />
+                                    
+                                </div>
+                                 <div className="space-y-2">
                                     <label className="block text-sm font-medium text-slate-700">
                                         Select Booking Type
                                     </label>
@@ -211,123 +245,133 @@ const ReportsClient = () => {
                                     Export to Excel
                                 </button>
                             </div>
-                            <div className="bg-white rounded-lg  shadow max-w-7xl">
+                            <div className="my-4 flex gap-4 flex-wrap">
+                                <div className="bg-white border shadow rounded-md p-10 flex items-center justify-center w-fit">
+                                    <p className="font-medium  flex flex-col text-center"> <span className="font-semibold text-2xl">{summary?.totalStockIns}</span>Stock Ins</p>
+                                </div>
+                                <div className="bg-white border shadow rounded-md p-10 flex items-center justify-center w-fit">
+                                    <p className="font-medium  flex flex-col text-center"> <span className="font-semibold text-2xl">{summary?.totalBagsIn}</span>Bags In</p>
+                                </div>
+                            </div>
+                            <div className="bg-white rounded-lg  shadow w-full">
                                 {/* scroll container */}
                                 <div className=" overflow-x-auto ">
-                                    <table className=" text-sm ">
+                                    <table className="w-full text-sm ">
                                         <thead className="sticky top-0 z-10 bg-slate-100">
+                                                {reportData?.data?.length > 0 && 
                                             <tr className="border-b">
-                                                <th
-
-                                                    className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
-                                                >
-                                                    SL
-                                                </th>
-                                                <th
-
-                                                    className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
-                                                >
-                                                    Booking Type
-                                                </th>
-                                                <th
-
-                                                    className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
-                                                >
-                                                    Booking No
-                                                </th>
-                                                <th
-
-                                                    className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
-                                                >
-                                                    Customer Info
-                                                </th>
-                                                <th
-
-                                                    className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
-                                                >
-                                                    Qty of Bags
-                                                </th>
-                                                <th
-
-                                                    className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
-                                                >
-                                                    Rate
-                                                </th>
-                                                <th
-
-                                                    className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
-                                                >
-                                                    Amount
-                                                </th>
-                                                <th
-
-                                                    className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
-                                                >
-                                                    Advance
-                                                </th>
-                                                <th
-
-                                                    className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
-                                                >
-                                                    Date
-                                                </th>
+                                                    <th
+                                                        
+                                                        className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
+                                                    >
+                                                        SL
+                                                    </th>
+                                                    <th
+                                                        
+                                                        className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
+                                                    >
+                                                        SR No
+                                                    </th>
+                                                    <th
+                                                        
+                                                        className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
+                                                    >
+                                                        Booking No
+                                                    </th>
+                                                    <th
+                                                        
+                                                        className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
+                                                    >
+                                                        Customer Info
+                                                    </th>
+                                                    <th
+                                                        
+                                                        className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
+                                                    >
+                                                       SR Holder Name
+                                                    </th>
+                                                    <th
+                                                        
+                                                        className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
+                                                    >
+                                                       Potato Name
+                                                    </th>
+                                                    <th
+                                                        
+                                                        className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
+                                                    >
+                                                       Receiver Name
+                                                    </th>
+                                                    <th
+                                                        
+                                                        className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
+                                                    >
+                                                       Bags In
+                                                    </th>
+                                                    <th
+                                                        
+                                                        className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
+                                                    >
+                                                       Date
+                                                    </th>
                                             </tr>
+}
                                         </thead>
 
                                         <tbody className="divide-y">
                                             {reportData?.data?.map((row, index) => (
-                                                <tr key={index} className="hover:bg-slate-50">
-                                                    <td
-                                                        className="px-4 py-3 text-slate-700 align-top"
-                                                    >
-                                                        {index + 1}
-                                                    </td>
-                                                    <td
-                                                        className="px-4 py-3 text-slate-700 align-top"
-                                                    >
-                                                        {row.bookingType}
-                                                    </td>
-                                                    <td
-                                                        className="px-4 py-3 text-slate-700 align-top"
-                                                    >
-                                                        {row.bookingNo}
-                                                    </td>
-                                                    <td
-                                                        className="px-4 py-3 text-slate-700 align-top"
-                                                    >
-                                                        <p>
+                                                <tr key={index} className="hover:bg-slate-50"> 
+                                                        <td
+                                                            className="px-4 py-3 text-slate-700 align-top"
+                                                        >
+                                                         {index+1}   
+                                                        </td>
+                                                        <td
+                                                            className="px-4 py-3 text-slate-700 align-top"
+                                                        >
+                                                         {row.srNo}   
+                                                        </td>
+                                                        <td
+                                                            className="px-4 py-3 text-slate-700 align-top"
+                                                        >
+                                                         {row.bookingNo}   
+                                                        </td>
+                                                        <td
+                                                            className="px-4 py-3 text-slate-700 align-top"
+                                                        >
+                                                            <p>
 
-                                                            {row?.customerName}
-                                                        </p>
-                                                        <p>
+                                                         {row?.bookingId?.customerName}   
+                                                            </p>
+                                                            <p>
 
-                                                            {row?.phone}
-                                                        </p>
-                                                        <p>
+                                                         {row?.bookingId?.phone}   
+                                                            </p>
+                                                            <p>
 
-                                                            {row?.address}
-                                                        </p>
-
+                                                         {row?.bookingId?.address}   
+                                                            </p>
+                                                         
+                                                        </td>
+                                                    <td
+                                                        className="px-4 py-3 text-slate-700 align-top"
+                                                    >
+                                                        {row.srHolderName}
                                                     </td>
                                                     <td
                                                         className="px-4 py-3 text-slate-700 align-top"
                                                     >
-                                                        {row.qtyOfBags}
+                                                        {row.potatoName}
                                                     </td>
                                                     <td
                                                         className="px-4 py-3 text-slate-700 align-top"
                                                     >
-                                                        {row.rate}
+                                                        {row.receiverName}
                                                     </td>
                                                     <td
                                                         className="px-4 py-3 text-slate-700 align-top"
                                                     >
-                                                        {row.amount}
-                                                    </td>
-                                                    <td
-                                                        className="px-4 py-3 text-slate-700 align-top"
-                                                    >
-                                                        {row.advanceAmount}
+                                                        {row.bagsIn}
                                                     </td>
                                                     <td
                                                         className="px-4 py-3 text-slate-700 align-top"
@@ -335,9 +379,9 @@ const ReportsClient = () => {
                                                         {
                                                             formatGlobalDate(row.date)
                                                         }
-
+                                                        
                                                     </td>
-
+                                                   
                                                 </tr>
                                             ))}
                                         </tbody>
@@ -422,7 +466,6 @@ const ReportsClient = () => {
                                         </thead>
 
                                         <tbody className="divide-y">
-
                                             <tr className="hover:bg-slate-50">
                                                 {Object.entries(metadata.data).map(([k, value], i) => (
                                                     <td
@@ -449,6 +492,7 @@ const ReportsClient = () => {
             )}
 
         </div>
-)};
+    )
+};
 
-export default ReportsClient;
+export default StockInReportsClient;

@@ -12,6 +12,7 @@ import {
 import { FaUsers } from "react-icons/fa6";
 import { GoReport } from "react-icons/go";
 import { GiEntryDoor, GiExitDoor } from "react-icons/gi";
+import LogoutButton from "./LogoutButton";
 
 export default function SidebarLayout({ children }: { children: ReactNode }) {
     const [open, setOpen] = useState(false);
@@ -23,6 +24,7 @@ export default function SidebarLayout({ children }: { children: ReactNode }) {
         { name: "Bookings", href: "/bookings", icon: FiFileText },
         { name: "Stock In", href: "/stock-in", icon: GiExitDoor },
         { name: "Stock Out", href: "/stock-out", icon: GiEntryDoor },
+        { name: "Users", href: "/users", icon: FaUsers },
         {
             name: "Reports", href: "/reports", icon: GoReport, children: [
                 { name: "Booking reports", href: "/booking-reports", icon: FiFileText },
@@ -122,6 +124,8 @@ export default function SidebarLayout({ children }: { children: ReactNode }) {
                             </div>
                         );
                     })}
+
+                    <LogoutButton></LogoutButton>
                 </nav>
             </aside>
 
