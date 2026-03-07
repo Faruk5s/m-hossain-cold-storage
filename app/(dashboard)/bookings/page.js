@@ -67,7 +67,7 @@ export default function Bookings() {
           </thead>
 
           <tbody>
-            {bookings.map((item, index) => (
+            {bookings?.map((item, index) => (
               <tr key={item._id} className="border-b text-zinc-500 hover:bg-slate-50">
                 <td className="p-3">{index + 1}</td>
                 <td className="p-3 font-medium">{formatGlobalDate(item.date) }</td>
