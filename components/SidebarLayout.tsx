@@ -35,6 +35,10 @@ export default function SidebarLayout({ children }: { children: ReactNode }) {
         
     ];
 
+    const siteName = process.env.NEXT_PUBLIC_SITE_NAME || "M.Hossain Cold"
+   
+
+
     return (
         <div className="flex min-h-screen  bg-slate-50">
             {/* ===== Mobile Overlay ===== */}
@@ -52,7 +56,7 @@ export default function SidebarLayout({ children }: { children: ReactNode }) {
             >
                 {/* Logo */}
                 <div className="h-16 flex items-center px-6 border-b font-bold text-slate-800 text-lg">
-                   M.Hossain Cold 
+                  {siteName}
                 </div>
 
                 {/* Navigation */}
