@@ -3,23 +3,23 @@ import type { NextRequest } from "next/server";
 
 export function proxy(request: NextRequest) {
 
-  const token = request.cookies.get("token")?.value;
-  const { pathname } = request.nextUrl;
+  // const token = request.cookies.get("token")?.value;
+  // const { pathname } = request.nextUrl;
 
-  // Allow login page
-  if (pathname.startsWith("/login")) {
+  // // Allow login page
+  // if (pathname.startsWith("/login")) {
 
-    if (token) {
-      return NextResponse.redirect(new URL("/", request.url));
-    }
+  //   if (token) {
+  //     return NextResponse.redirect(new URL("/", request.url));
+  //   }
 
-    return NextResponse.next();
-  }
+  //   return NextResponse.next();
+  // }
 
-  // If not logged in → redirect
-  if (!token) {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
+  // // If not logged in → redirect
+  // if (!token) {
+  //   return NextResponse.redirect(new URL("/login", request.url));
+  // }
 
   return NextResponse.next();
 }
