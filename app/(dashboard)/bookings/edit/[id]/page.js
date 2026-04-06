@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 export default function EditBooking({ params }) {
   const router = useRouter();
   const {id}=use(params);
+  const token = localStorage.getItem("token");
   const [loading, setLoading] = useState(true);
 
   const [form, setForm] = useState({
@@ -24,7 +25,11 @@ export default function EditBooking({ params }) {
 
   // ✅ Fetch booking by ID
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${id}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${id}`,{
+      headers: {
+                    Authorization: token,
+                }
+    })
       .then((res) => res.json())
       .then(({data}) => {
         setForm({
@@ -41,7 +46,7 @@ export default function EditBooking({ params }) {
         });
         setLoading(false);
       });
-  }, [id]);
+  }, [id,token]);
 
   const handleChange = (e) => {
 if(e.target.name === 'qtyOfBags' || e.target.name === 'advanceAmount' ){
@@ -59,7 +64,9 @@ if(e.target.name === 'qtyOfBags' || e.target.name === 'advanceAmount' ){
 
    const response= await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${id}`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",headers: {
+                    Authorization: token,
+                } },
       body: JSON.stringify({
         ...form,
         qty: Number(form.qtyOfBags),

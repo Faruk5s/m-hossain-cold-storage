@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 export default function CreateBooking() {
   const router = useRouter();
+  const token = localStorage.getItem("token");
   const [error,setError]=useState('')
 
   const [form, setForm] = useState({
@@ -41,7 +42,9 @@ try{
 
  const response=  await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json",headers: {
+                    Authorization: token,
+                } },
     body: JSON.stringify({
       ...form,
       qty: Number(form.qtyOfBags),
@@ -55,7 +58,6 @@ try{
   if(data.success){
     router.push("/bookings");
   }
-  console.log(data)
  
 }catch(err){
   setError(err.message)

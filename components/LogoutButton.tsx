@@ -9,13 +9,20 @@ export default function LogoutButton() {
 
     const handleLogout = async () => {
 
-        await axios.post(
-            `${process.env.NEXT_PUBLIC_API_URL}/auth/logout`,
-            {},
-            { withCredentials: true }
-        );
-
-        router.push("/login");
+        try {
+            await axios.post(
+                `${process.env.NEXT_PUBLIC_API_URL}/auth/logout`,
+                {},
+                { withCredentials: true }
+            );
+        } catch (err) {
+            console.error("Logout error:", err);
+        } finally {
+            // Clear token from localStorage
+            localStorage.removeItem("token");
+            // Redirect to login
+            router.replace("/login");
+        }
 
     };
 

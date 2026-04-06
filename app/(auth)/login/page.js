@@ -17,13 +17,18 @@ export default function LoginPage() {
 
     try{
 
-      await axios.post(
+      const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
         { email, password },
         { withCredentials:true }
       );
 
-      router.push("/");
+      // Store the token in localStorage
+      if (response.data.data.token) {
+        localStorage.setItem("token", response.data.data.token);
+      }
+
+      router.push("/dashboard");
 
     }catch(err){
       alert("Login failed");

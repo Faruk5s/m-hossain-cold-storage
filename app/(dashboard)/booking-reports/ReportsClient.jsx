@@ -122,6 +122,46 @@ const ReportsClient = () => {
 
         XLSX.writeFile(wb, filename);
     };
+
+    const downloadPdf = async () => {
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/export-booking-pdf`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    data: reportData.data,
+                }),
+            });
+
+            if (!res.ok) {
+                throw new Error('Server error');
+            }
+
+            const blob = await res.blob();
+
+            // ✅ Validate PDF
+            if (blob.type !== 'application/pdf') {
+                throw new Error('Not a PDF file');
+            }
+
+            const url = window.URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'booking-report.pdf';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+
+            window.URL.revokeObjectURL(url);
+
+        } catch (err) {
+            console.error(err);
+            alert('PDF download failed');
+        }
+    };
     return (
         <div className="max-w-full">
             <h2 className="text-xl font-bold mb-6 text-slate-800">Booking Reports</h2>
@@ -210,6 +250,12 @@ const ReportsClient = () => {
                                     className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
                                 >
                                     Export to Excel
+                                </button>
+                                <button
+                                    onClick={downloadPdf}
+                                    className="px-4 py-2 bg-green-600 text-white rounded-md"
+                                >
+                                    Download PDF (Fast)
                                 </button>
                             </div>
                             <div className="bg-white rounded-lg  shadow max-w-7xl">

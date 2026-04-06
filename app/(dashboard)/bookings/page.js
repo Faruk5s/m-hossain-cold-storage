@@ -4,13 +4,22 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { FiEye, FiEdit, FiTrash, FiPlus } from "react-icons/fi";
 import formatGlobalDate from "../../../lib/formatGlobalDate";
+import { useRouter } from "next/navigation";
 
 export default function Bookings() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-
+const router = useRouter();
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings`)
+    const token = localStorage.getItem("token");
+    if(!token){
+      router.replace("/login");
+    }
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings`,{
+      headers: {
+                    Authorization: token,
+                }
+    })
       .then((res) => res.json())
       .then((data) => {
        
@@ -18,19 +27,21 @@ export default function Bookings() {
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, []);
+  }, [router]);
 
   const handleDelete = async (id) => {
     if (!confirm("Delete this booking?")) return;
 
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${id}`, {
       method: "DELETE",
+      headers: {
+                    Authorization: token,
+                }
     });
 
     setBookings((prev) => prev.filter((item) => item._id !== id));
   };
 
-  console.log(bookings)
 
   if (loading) return <p>Loading...</p>;
 

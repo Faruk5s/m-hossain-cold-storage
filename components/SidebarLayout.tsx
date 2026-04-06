@@ -20,7 +20,7 @@ export default function SidebarLayout({ children }: { children: ReactNode }) {
     const pathname = usePathname();
 
     const navItems = [
-        { name: "Home", href: "/", icon: FiHome },
+        { name: "Home", href: "/dashboard", icon: FiHome },
         { name: "Bookings", href: "/bookings", icon: FiFileText },
         { name: "Stock In", href: "/stock-in", icon: GiExitDoor },
         { name: "Stock Out", href: "/stock-out", icon: GiEntryDoor },

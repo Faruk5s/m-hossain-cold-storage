@@ -4,13 +4,17 @@ import { use, useEffect, useState } from "react";
 
 export default function ViewBooking({ params }) {
   const [booking, setBooking] = useState(null);
+  const token = localStorage.getItem("token");
 const {id}= use(params);
-console.log(use(params))
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${id}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${id}`,{
+      headers: {
+                    Authorization: token,
+                }
+    })
       .then((res) => res.json())
       .then((data) => setBooking(data.data));
-  }, [id]);
+  }, [id,token]);
 
   if (!booking) return <p>Loading...</p>;
 
