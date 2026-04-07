@@ -36,7 +36,7 @@ const router = useRouter();
     await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${id}`, {
       method: "DELETE",
       headers: {
-                    Authorization: token,
+                    Authorization: localStorage.getItem('token'),
                 }
     });
 
