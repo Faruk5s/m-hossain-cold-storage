@@ -12,6 +12,7 @@ export default function Bookings() {
 const router = useRouter();
   useEffect(() => {
     const token = localStorage.getItem("token");
+    console.log(token,'token from bookings page')
     if(!token){
       router.replace("/login");
     }
