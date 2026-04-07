@@ -6,6 +6,7 @@ import { Card, CardHeader, CardTitle } from "../../../components/ui/card";
 import axios from "axios";
 import * as XLSX from "xlsx";
 import formatGlobalDate from "../../../lib/formatGlobalDate";
+import { headers } from "next/headers";
 
 const formatBookingsForExcel = (data = []) => {
     return data.map((item, index) => ({
@@ -47,7 +48,7 @@ const ReportsClient = () => {
 
     const fetchIndividualReport = async () => {
         
-
+const token=localStorage.getItem('token');
         setLoading(true);
         try {
             // Replace with your actual API endpoint
@@ -57,6 +58,11 @@ const ReportsClient = () => {
                     endDate: individualEndDate,
                     bookingType: bookingType,
                 },
+                
+                    headers:{
+                        Authorization:token,
+                    }
+                
             });
             setReportData(response.data);
         } catch (error) {
@@ -68,7 +74,7 @@ const ReportsClient = () => {
     };
 
     const fetchCustomReport = async () => {
-       
+        const token = localStorage.getItem('token'); 
 
         if (new Date(startDate) > new Date(endDate)) {
             alert("Start date must be before end date");
@@ -82,8 +88,10 @@ const ReportsClient = () => {
                 params: {
                     startDate: startDate,
                     endDate: endDate,
-
                 },
+                headers: {
+                    Authorization: token,
+                }
             });
             setMetadata(response.data);
         } catch (error) {
