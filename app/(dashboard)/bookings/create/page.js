@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 export default function CreateBooking() {
   const router = useRouter();
-  const token = localStorage.getItem("token");
+
   const [error,setError]=useState('')
 
   const [form, setForm] = useState({
@@ -39,7 +39,7 @@ export default function CreateBooking() {
 setError('')
 
 try{
-
+  const token = localStorage.getItem("token");
  const response=  await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings`, {
     method: "POST",
     headers: { "Content-Type": "application/json",headers: {
