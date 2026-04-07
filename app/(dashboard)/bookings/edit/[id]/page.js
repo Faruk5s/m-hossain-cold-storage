@@ -64,9 +64,9 @@ if(e.target.name === 'qtyOfBags' || e.target.name === 'advanceAmount' ){
 
    const response= await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings/${id}`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json",headers: {
+      headers: { "Content-Type": "application/json",
                     Authorization: localStorage.getItem("token"),
-                } },
+                 },
       body: JSON.stringify({
         ...form,
         qty: Number(form.qtyOfBags),
