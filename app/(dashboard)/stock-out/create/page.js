@@ -106,7 +106,11 @@ export default function CreateStockOut() {
     // fetch bookings for combobox
     const fetchBookings = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings`,{
+           headers:{
+          Authorization: localStorage.getItem("token"),
+        }
+        });
         const data = await res.json();
         setBookings(data.data || []);
       } catch (err) {

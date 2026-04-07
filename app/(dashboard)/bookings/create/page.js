@@ -42,9 +42,9 @@ try{
   const token = localStorage.getItem("token");
  const response=  await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings`, {
     method: "POST",
-    headers: { "Content-Type": "application/json",headers: {
+    headers: { "Content-Type": "application/json",
                     Authorization: token,
-                } },
+                 },
     body: JSON.stringify({
       ...form,
       qty: Number(form.qtyOfBags),

@@ -43,7 +43,11 @@ export default function EditStockIn({ params }) {
   ================================= */
   useEffect(() => {
     const fetchBookings = async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bookings`,{
+        headers:{
+          Authorization: localStorage.getItem("token"),
+        }
+      });
       const data = await res.json();
       setBookings(data.data || []);
     };
