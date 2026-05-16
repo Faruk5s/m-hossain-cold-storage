@@ -31,6 +31,8 @@ export default function StockOut() {
 
   if (loading) return <p>Loading...</p>;
 
+  
+
   return (
     <div className="bg-white rounded-xl shadow-sm border p-5">
       {/* Header */}
@@ -52,9 +54,11 @@ export default function StockOut() {
             <tr>
               <th className="p-3 text-left">SL</th>
               <th className="p-3 text-left">SR No</th>
+              <th className="p-3 text-left">Sr Holder Name </th>
               <th className="p-3 text-left">DO No</th>
               <th className="p-3 text-left">Booking No</th>
               <th className="p-3 text-left">Booking Holder </th>
+              <th className="p-3 text-left">Rate</th>
               <th className="p-3 text-center">Bags OUT</th>
               <th className="p-3 text-left">Date</th>
               <th className="p-3 text-center">Action</th>
@@ -69,9 +73,11 @@ export default function StockOut() {
               >
                 <td className="p-3">{index + 1}</td>
                 <td className="p-3 font-medium">{item.srNo}</td>
+                <td className="p-3 font-medium">{item.srHolderName}</td>
                 <td className="p-3 font-medium">{item.doNo}</td>
                 <td className="p-3">{item.bookingNo}</td>
                 <td className="p-3">{item.bookingId?.customerName}</td>
+                <td className="p-3">{item.bookingId?.rate}</td>
                 <td className="p-3 text-center">{item.bagsOut}</td>
                 <td className="p-3">{formatGlobalDate(item.date)}</td>
                 <td className="p-3">
