@@ -58,6 +58,7 @@ export default function StockOut() {
               <th className="p-3 text-left">DO No</th>
               <th className="p-3 text-left">Booking No</th>
               <th className="p-3 text-left">Booking Holder </th>
+              <th className="p-3 text-left">Potato Name</th>
               <th className="p-3 text-left">Rate</th>
               <th className="p-3 text-center">Bags OUT</th>
               <th className="p-3 text-left">Date</th>
@@ -77,6 +78,7 @@ export default function StockOut() {
                 <td className="p-3 font-medium">{item.doNo}</td>
                 <td className="p-3">{item.bookingNo}</td>
                 <td className="p-3">{item.bookingId?.customerName}</td>
+                <td className="p-3">{item.potatoName}</td>
                 <td className="p-3">{item.bookingId?.rate}</td>
                 <td className="p-3 text-center">{item.bagsOut}</td>
                 <td className="p-3">{formatGlobalDate(item.date)}</td>

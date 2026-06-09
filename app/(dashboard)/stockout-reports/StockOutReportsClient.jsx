@@ -12,6 +12,9 @@ const formatBookingsForExcel = (data = []) => {
         "Date": new Date(item.date).toLocaleDateString('en-GB'),
         "Booking Holder Name": item.bookingId.customerName,
         "Booking type": item.bookingId.bookingType,
+        "SR Holder Name type": item.srHolderName,
+        "Potato Name": item.potatoName,
+        "Rate": item.bookingId.rate,
         "Do No": item.doNo,
         "Booking No": item.bookingNo,
         "Sr No": item.srNo,
@@ -39,7 +42,6 @@ const StockOutReportsClient = () => {
         totalBagsOut: reportData?.data?.reduce((acc,cur)=>acc+cur.bagsOut,0),
         remainingBags: 0
     })
-console.log(summary)
     const getStockIns = async () => {
         try {
             const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/stock-ins`, {
@@ -67,7 +69,6 @@ console.log(summary)
 
 // },[bookingNo,srNo,individualEndDate,individualStartDate,summary.totalBagsOut])
 
-console.log(stockIns,'stockins')
     // Update URL when tab changes
     useEffect(() => {
         router.push(`?tab=${activeTab}`, { scroll: false });
@@ -309,6 +310,12 @@ console.log(stockIns,'stockins')
                                                         
                                                         className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
                                                     >
+                                                        SR Holder Name
+                                                    </th>
+                                                    <th
+                                                        
+                                                        className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
+                                                    >
                                                         Booking No
                                                     </th>
                                                     <th
@@ -323,6 +330,16 @@ console.log(stockIns,'stockins')
                                                     >
                                                         Booking Holder Info
                                                     </th>
+                                                    <th
+                                                        
+                                                        className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
+                                                    >
+                                                      Potato Name                                                   </th>
+                                                    <th
+                                                        
+                                                        className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
+                                                    >
+                                                      Rate                                                   </th>
                                                     <th
                                                         
                                                         className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
@@ -354,6 +371,11 @@ console.log(stockIns,'stockins')
                                                         <td
                                                             className="px-4 py-3 text-slate-700 align-top"
                                                         >
+                                                         {row.srHolderName}   
+                                                        </td>
+                                                        <td
+                                                            className="px-4 py-3 text-slate-700 align-top"
+                                                        >
                                                          {row.bookingNo}   
                                                         </td>
                                                         <td
@@ -378,6 +400,16 @@ console.log(stockIns,'stockins')
                                                             </p>
                                                          
                                                         </td>
+                                                    <td
+                                                        className="px-4 py-3 text-slate-700 align-top"
+                                                    >
+                                                        {row.potatoName}
+                                                    </td>
+                                                    <td
+                                                        className="px-4 py-3 text-slate-700 align-top"
+                                                    >
+                                                        {row.bookingId.rate}
+                                                    </td>
                                                     <td
                                                         className="px-4 py-3 text-slate-700 align-top"
                                                     >
