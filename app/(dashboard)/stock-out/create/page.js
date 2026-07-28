@@ -36,9 +36,7 @@ export default function CreateStockOut() {
         setTotalStockOuts(totalStockOuts);
       },1000)
     }
-    if(e.target.name==="doNo"){
-      [e.target.name]=Number(e.target.value);
-    }
+   
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -56,11 +54,13 @@ export default function CreateStockOut() {
           body: JSON.stringify({
             ...form,
             bagsOut: Number(form.bagsOut),
+            doNo: Number(form.doNo),
           }),
         }
       );
 
       const data = await response.json();
+      console.log(data,'data');
 
       if (data.success) {
         router.push("/stock-out");
