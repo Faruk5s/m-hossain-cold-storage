@@ -33,6 +33,8 @@ export default function StockOut() {
 
   
 
+
+
   return (
     <div className="bg-white rounded-xl shadow-sm border p-5">
       {/* Header */}

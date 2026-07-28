@@ -13,7 +13,7 @@ export default function CreateStockOut() {
     srNo: "",
     bookingId: "",
     bookingNo: "",
-    doNo:'',
+    doNo:0,
     bagsOut: 0,
     date: new Date().toISOString().split("T")[0],
   });
@@ -35,6 +35,9 @@ export default function CreateStockOut() {
         const totalStockOuts= await getStockOuts(form.bookingNo,e.target.value)
         setTotalStockOuts(totalStockOuts);
       },1000)
+    }
+    if(e.target.name==="doNo"){
+      [e.target.name]=Number(e.target.value);
     }
     setForm({ ...form, [e.target.name]: e.target.value });
   };
