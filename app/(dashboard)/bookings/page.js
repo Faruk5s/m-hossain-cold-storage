@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 export default function Bookings() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
+  console.log(bookings);
 const router = useRouter();
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -72,6 +73,9 @@ const router = useRouter();
               <th className="p-3 text-left">Customer</th>
               <th className="p-3 text-left">Phone</th>
               <th className="p-3 text-center">Qty of Bags</th>
+              <th className="p-3 text-center">Total Stock In</th>
+              <th className="p-3 text-center">Total Stock Out</th>
+              <th className="p-3 text-center">Remaining Bags</th>
               <th className="p-3 text-right">Amount</th>
               <th className="p-3 text-right">Paid</th>
               <th className="p-3 text-center">Action</th>
@@ -90,6 +94,9 @@ const router = useRouter();
                 <td className="p-3">{item.customerName}</td>
                 <td className="p-3">{item.phone}</td>
                 <td className="p-3 text-center">{item.qtyOfBags}</td>
+                <td className="p-3 text-center">{item.totalStockIn}</td>
+                <td className="p-3 text-center">{item.totalStockOut}</td>
+                <td className="p-3 text-center">{item.remainingBags}</td>
                 <td className="p-3 text-right">৳ {item.amount}</td>
                 <td className="p-3 text-right">৳ {item.advanceAmount}</td>
                 <td className="p-3">

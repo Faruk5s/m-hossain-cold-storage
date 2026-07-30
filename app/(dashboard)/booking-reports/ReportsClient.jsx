@@ -16,6 +16,9 @@ const formatBookingsForExcel = (data = []) => {
         "Phone": item.phone,
         "Address": item.address,
         "Qty (Bags)": item.qtyOfBags,
+        "Total StockIn": item.totalStockIn,
+        "Total StockOut": item.totalStockOut,
+        "Remaining Bags": item.remainingBags,
         "Rate": item.rate,
         "Amount": item.amount,
         "Advance": item.advanceAmount ?? 0,
@@ -305,6 +308,24 @@ const token=localStorage.getItem('token');
 
                                                     className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
                                                 >
+                                                    Total StockIn
+                                                </th>
+                                                <th
+
+                                                    className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
+                                                >
+                                                   Total StockOut
+                                                </th>
+                                                <th
+
+                                                    className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
+                                                >
+                                                    Remaining Bags
+                                                </th>
+                                                <th
+
+                                                    className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap"
+                                                >
                                                     Rate
                                                 </th>
                                                 <th
@@ -367,6 +388,21 @@ const token=localStorage.getItem('token');
                                                         className="px-4 py-3 text-slate-700 align-top"
                                                     >
                                                         {row.qtyOfBags}
+                                                    </td>
+                                                    <td
+                                                        className="px-4 py-3 text-slate-700 align-top"
+                                                    >
+                                                        {row.totalStockIn}
+                                                    </td>
+                                                    <td
+                                                        className="px-4 py-3 text-slate-700 align-top"
+                                                    >
+                                                        {row.totalStockOut}
+                                                    </td>
+                                                    <td
+                                                        className="px-4 py-3 text-slate-700 align-top"
+                                                    >
+                                                        {row.remainingBags}
                                                     </td>
                                                     <td
                                                         className="px-4 py-3 text-slate-700 align-top"
