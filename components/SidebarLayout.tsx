@@ -24,6 +24,7 @@ export default function SidebarLayout({ children }: { children: ReactNode }) {
         { name: "Bookings", href: "/bookings", icon: FiFileText },
         { name: "Stock In", href: "/stock-in", icon: GiExitDoor },
         { name: "Stock Out", href: "/stock-out", icon: GiEntryDoor },
+        { name: "Remaining Bags", href: "/remaining-bags", icon: FiFileText },
         { name: "Users", href: "/users", icon: FaUsers },
         {
             name: "Reports", href: "/reports", icon: GoReport, children: [
