@@ -25,7 +25,7 @@ export default function StockIn() {
       method: "DELETE",
     });
 const data= await response.json();
-    console.log(data)
+   
 if(data.success){
   setStockIn((prev) => prev.filter((item) => item._id !== id));
 }else{

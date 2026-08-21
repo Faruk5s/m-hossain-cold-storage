@@ -64,7 +64,7 @@ export default function CreateStockIn() {
           }
         });
         const data = await res.json();
-        console.log(data);
+      
         setBookings(data.data || []);
       } catch (err) {
         console.error("Failed to load bookings", err);

@@ -25,7 +25,7 @@ export default function CreateUserPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-console.log(form)
+
     try {
       setLoading(true);
 

@@ -31,7 +31,6 @@ export default function RootPage() {
                     }
                 })
                 .catch(err => {
-                    console.error('Auth validation failed:', err);
                     router.replace("/login");
                     localStorage.removeItem('token')
                 })

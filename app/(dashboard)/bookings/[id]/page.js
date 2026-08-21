@@ -18,7 +18,7 @@ const {id}= use(params);
 
   if (!booking) return <p>Loading...</p>;
 
-//   console.log(boo)
+
   return (
     <div className="max-w-4xl mx-auto bg-white  rounded-xl shadow border p-6">
       <h2 className="text-xl font-bold mb-6 text-black">Booking Details</h2>

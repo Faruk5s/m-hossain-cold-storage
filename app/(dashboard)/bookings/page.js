@@ -9,11 +9,10 @@ import { useRouter } from "next/navigation";
 export default function Bookings() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-  console.log(bookings);
+  
 const router = useRouter();
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log(token,'token from bookings page')
     if(!token){
       router.replace("/login");
     }

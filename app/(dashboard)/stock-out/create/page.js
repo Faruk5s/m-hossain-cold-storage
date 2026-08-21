@@ -60,7 +60,7 @@ export default function CreateStockOut() {
       );
 
       const data = await response.json();
-      console.log(data,'data');
+     
 
       if (data.success) {
         router.push("/stock-out");

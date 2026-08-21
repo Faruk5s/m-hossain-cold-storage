@@ -17,7 +17,7 @@ export default function ViewStockOut({ params }) {
   }, [id]);
 
   if (!stockOut) return <p>Loading...</p>;
-console.log(stockOut)
+
   return (
     <div className="max-w-4xl mx-auto bg-white rounded-xl shadow border p-6">
       <h2 className="text-xl font-bold mb-6 text-black">Stock OUT Details</h2>
