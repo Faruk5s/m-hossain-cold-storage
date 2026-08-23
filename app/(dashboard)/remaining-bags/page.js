@@ -32,9 +32,11 @@ export default function RemainingBags() {
           <thead className="bg-slate-100 text-slate-600">
             <tr>
               <th className="p-3 text-left">SL</th>
+              <th className="p-3 text-left">Booking No</th>
+              <th className="p-3 text-center">Booking Holder Name</th>
               <th className="p-3 text-left">SR No</th>
-              <th className="p-3 text-center">Potato Name</th>
               <th className="p-3 text-center">SR Holder Name</th>
+              <th className="p-3 text-center">Potato Name</th>
               <th className="p-3 text-center">Remaining Bags</th>
              
             </tr>
@@ -43,13 +45,15 @@ export default function RemainingBags() {
           <tbody>
             {remainingBags.map((item, index) => (
               <tr
-                key={item._id}
+                key={index}
                 className="border-b text-zinc-500 hover:bg-slate-50"
               >
                 <td className="p-3">{index + 1}</td>
+                <td className="p-3 font-medium">{item.bookingNo}</td>
+                <td className="p-3 text-center">{item.bookingHolderName}</td>
                 <td className="p-3 font-medium">{item.srNo}</td>
-                <td className="p-3 text-center">{item.potatoName}</td>
                 <td className="p-3 text-center">{item.srHolderName}</td>
+                <td className="p-3 text-center">{item.potatoName}</td>
                 <td className="p-3 text-center">{item.remainingBags}</td>
                 
                 
