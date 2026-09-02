@@ -31,6 +31,7 @@ export default function SidebarLayout({ children }: { children: ReactNode }) {
                 { name: "Booking reports", href: "/booking-reports", icon: FiFileText },
                 { name: "Stock In reports", href: "/stockin-reports", icon: FiFileText },
                 { name: "Stock Out reports", href: "/stockout-reports", icon: FiFileText },
+                { name: "Remaining bags report", href: "/remaining-bags-report", icon: FiFileText },
             ]
         },
         
