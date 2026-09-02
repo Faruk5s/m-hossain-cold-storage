@@ -270,10 +270,9 @@ const token=localStorage.getItem('token');
                             <div className="bg-white rounded-lg  shadow max-w-7xl">
                                 {/* scroll container */}
                                 <div className=" overflow-x-auto ">
-                                    <table className=" text-sm ">
+                                    <table className=" text-sm w-full">
                                         <thead className="sticky top-0 z-10 bg-slate-100">
                                             <tr className="border-b">
-                                                
                                                 <th className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap">SL</th>
                                                 <th className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap">Booking No</th>
                                                 <th className="px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap">Booking Holder Name</th>
